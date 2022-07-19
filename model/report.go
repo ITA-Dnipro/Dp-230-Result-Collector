@@ -29,7 +29,7 @@ func ReportFromProto(report *pb.Report) (*Report, error) {
 
 func (rp *Report) ToProto() *pb.Report {
 	r := &pb.Report{
-		ID:              rp.ID.String(),
+		ID:              rp.ID.Hex(),
 		TotalTestCount:  rp.TotalTestCount,
 		FinishTestCount: rp.FinishTestCount,
 	}
