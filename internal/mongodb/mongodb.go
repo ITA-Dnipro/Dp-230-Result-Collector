@@ -81,7 +81,7 @@ func (r *reportMongoRepo) Create(ctx context.Context, report *model.Report) (*mo
 	return report, nil
 }
 
-func (r *reportMongoRepo) PushResult(ctx context.Context, id string, result model.Result) (*model.Report, error) {
+func (r *reportMongoRepo) PushResult(ctx context.Context, id string, tr model.TestResult) (*model.Report, error) {
 	collection := r.mongoDB.Database(reportsDB).Collection(reportsCollection)
 
 	objectID, err := primitive.ObjectIDFromHex(id)
@@ -93,7 +93,7 @@ func (r *reportMongoRepo) PushResult(ctx context.Context, id string, result mode
 	ops.SetReturnDocument(options.After)
 	ops.SetUpsert(false)
 
-	upd := bson.M{"$push": bson.M{"results": result}, "$inc": bson.M{"finishTestCount": 1}}
+	upd := bson.M{"$push": bson.M{"testResults": tr}, "$inc": bson.M{"finishTestCount": 1}}
 
 	var report model.Report
 	if err := collection.FindOneAndUpdate(ctx, bson.M{"_id": objectID}, upd, ops).Decode(&report); err != nil {

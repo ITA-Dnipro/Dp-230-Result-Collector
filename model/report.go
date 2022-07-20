@@ -7,8 +7,10 @@ import (
 
 type Report struct {
 	ID              primitive.ObjectID `json:"id" bson:"_id,omitempty"`
-	Results         []Result           `json:"results" bson:"results,omitempty"`
-	TotalTestCount  int64              `json:"total_test_count" bson:"totalTestCount,omitempty"`
+	URL             string             `json:"url" bson:"url,omitempty" validate:"required,url"`
+	Email           string             `json:"email" bson:"email,omitempty" validate:"required,email"`
+	TestResults     []TestResult       `json:"testResults" bson:"testResults,omitempty"`
+	TotalTestCount  int64              `json:"total_test_count" bson:"totalTestCount,omitempty" validate:"required"`
 	FinishTestCount int64              `json:"finish_test_count" bson:"finishTestCount"`
 }
 
@@ -19,10 +21,12 @@ func ReportFromProto(report *pb.Report) (*Report, error) {
 	}
 
 	rep := &Report{
-		ID: reportID,
+		ID:    reportID,
+		URL:   report.URL,
+		Email: report.Email,
 	}
-	for _, res := range report.GetResults() {
-		rep.Results = append(rep.Results, ResultFromProto(res))
+	for _, tr := range report.GetTestResults() {
+		rep.TestResults = append(rep.TestResults, TestResultFromProto(tr))
 	}
 	return rep, nil
 }
@@ -30,12 +34,14 @@ func ReportFromProto(report *pb.Report) (*Report, error) {
 func (rp *Report) ToProto() *pb.Report {
 	r := &pb.Report{
 		ID:              rp.ID.Hex(),
+		URL:             rp.URL,
+		Email:           rp.Email,
 		TotalTestCount:  rp.TotalTestCount,
 		FinishTestCount: rp.FinishTestCount,
 	}
 
-	for _, res := range rp.Results {
-		r.Results = append(r.Results, res.ToProto())
+	for _, tr := range rp.TestResults {
+		r.TestResults = append(r.TestResults, tr.ToProto())
 	}
 	return r
 }

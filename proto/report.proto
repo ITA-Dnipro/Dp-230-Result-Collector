@@ -29,28 +29,37 @@ message Result {
   string Type = 6;
 }
 
+message TestResult {
+  string Type = 1;
+  repeated Result Results = 2;
+}
+
 message Report {
   string ID = 1;
-  repeated Result Results = 2;
-  int64 TotalTestCount = 3;
-  int64 FinishTestCount = 4;
+  string URL = 2;
+  string Email = 3;
+  repeated TestResult TestResults = 4;
+  int64 TotalTestCount = 5;
+  int64 FinishTestCount = 6;
 }
 
 message CreateReq {
-int64 TotalTestCount = 1;
+  string URL = 1;
+  string Email = 2;
+  int64  TotalTestCount = 3;
 }
 
 message CreateRes {
-    Report Report = 1;
+  Report Report = 1;
 }
 
 message PushResultReq{
-    string ID = 1;
-    Result Result = 2;
+  string ID = 1;
+  TestResult TestResult = 2;
 }
 
 message PushResultRes {
-    Report Report = 1;
+  Report Report = 1;
 }
 
 service ReportService {

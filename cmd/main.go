@@ -5,6 +5,7 @@ import (
 	"log"
 	"net"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/kelseyhightower/envconfig"
 	"google.golang.org/grpc"
 
@@ -37,8 +38,9 @@ func main() {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
+	validate := validator.New()
 	reportRepo := mongodb.NewReportMongoRepo(mongoDBConn)
-	service := service.NewReportService(reportRepo)
+	service := service.NewReportService(reportRepo, validate)
 
 	srv := grpc.NewServer()
 	pb.RegisterReportServiceServer(srv, service)

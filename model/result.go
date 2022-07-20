@@ -14,6 +14,11 @@ type Result struct {
 	EndTime   time.Time `json:"end_time" bson:"endTime,omitempty"`
 }
 
+type TestResult struct {
+	Type    string   `json:"type" bson:"type,omitempty"`
+	Results []Result `json:"results" bson:"results,omitempty"`
+}
+
 func ResultFromProto(res *pb.Result) Result {
 	r := Result{
 		URL:       res.GetURL(),
@@ -22,6 +27,16 @@ func ResultFromProto(res *pb.Result) Result {
 	}
 	for _, poc := range res.GetPoCs() {
 		r.PoCs = append(r.PoCs, PoCFromProto(poc))
+	}
+	return r
+}
+
+func TestResultFromProto(tr *pb.TestResult) TestResult {
+	r := TestResult{
+		Type: tr.Type,
+	}
+	for _, res := range tr.GetResults() {
+		r.Results = append(r.Results, ResultFromProto(res))
 	}
 	return r
 }
@@ -37,4 +52,14 @@ func (res *Result) ToProto() *pb.Result {
 		r.PoCs = append(r.PoCs, p.ToProto())
 	}
 	return r
+}
+func (tr *TestResult) ToProto() *pb.TestResult {
+	res := &pb.TestResult{
+		Type: tr.Type,
+	}
+
+	for _, r := range tr.Results {
+		res.Results = append(res.Results, r.ToProto())
+	}
+	return res
 }
