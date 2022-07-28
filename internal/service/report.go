@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/go-playground/validator/v10"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
@@ -12,18 +11,17 @@ import (
 	pb "github.com/ITA-Dnipro/Dp-230-Result-Collector/proto"
 )
 
-type reportRepo interface {
+type reportUsecase interface {
 	Create(ctx context.Context, report *model.Report) (*model.Report, error)
 	PushResult(ctx context.Context, id string, tr model.TestResult) (*model.Report, error)
 }
 
 type reportService struct {
-	repo     reportRepo
-	validate *validator.Validate
+	usecase reportUsecase
 }
 
-func NewReportService(repo reportRepo, validate *validator.Validate) *reportService {
-	return &reportService{repo: repo, validate: validate}
+func NewReportService(uc reportUsecase) *reportService {
+	return &reportService{usecase: uc}
 }
 
 func (r *reportService) Create(ctx context.Context, req *pb.CreateReq) (*pb.CreateRes, error) {
@@ -33,11 +31,7 @@ func (r *reportService) Create(ctx context.Context, req *pb.CreateReq) (*pb.Crea
 		TotalTestCount: req.GetTotalTestCount(),
 	}
 
-	if err := r.validate.StructCtx(ctx, report); err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, fmt.Sprintf("%s: %v", err.Error(), err))
-	}
-
-	created, err := r.repo.Create(ctx, report)
+	created, err := r.usecase.Create(ctx, report)
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, fmt.Sprintf("%s: %v", err.Error(), err))
 	}
@@ -48,9 +42,11 @@ func (r *reportService) Create(ctx context.Context, req *pb.CreateReq) (*pb.Crea
 func (r *reportService) PushResult(ctx context.Context, req *pb.PushResultReq) (*pb.PushResultRes, error) {
 	id := req.GetID()
 	tr := model.TestResultFromProto(req.GetTestResult())
-	created, err := r.repo.PushResult(ctx, id, tr)
+
+	created, err := r.usecase.PushResult(ctx, id, tr)
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, fmt.Sprintf("%s: %v", err.Error(), err))
 	}
+
 	return &pb.PushResultRes{Report: created.ToProto()}, nil
 }

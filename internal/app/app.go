@@ -14,6 +14,7 @@ import (
 
 	"github.com/ITA-Dnipro/Dp-230-Result-Collector/internal/config"
 	grpcWrapper "github.com/ITA-Dnipro/Dp-230-Result-Collector/pkg/grpc"
+	"github.com/ITA-Dnipro/Dp-230-Result-Collector/pkg/kafka"
 	mongoWrapper "github.com/ITA-Dnipro/Dp-230-Result-Collector/pkg/mongodb"
 )
 
@@ -31,13 +32,11 @@ type App struct {
 	//Components
 	Server      *grpcWrapper.ServerWrapper
 	MongoClient *mongoWrapper.ClientWrapper
+	Producer    *kafka.SyncProducerWrapper
 }
 
-func NewApp(cfg config.Config) (*App, error) {
-	logger, err := zap.NewProduction()
-	if err != nil {
-		return nil, err
-	}
+func NewApp(cfg config.Config, logger *zap.Logger) (*App, error) {
+
 	app := &App{
 		logger: logger,
 		config: cfg,
@@ -57,11 +56,19 @@ func (a *App) initComponents() error {
 		return err
 	}
 	a.Server, a.components = srv, append(a.components, srv)
+
 	client, err := mongoWrapper.NewClient("mongo client", a.config.MongoDB, a.logger)
 	if err != nil {
 		return err
 	}
 	a.MongoClient, a.components = client, append(a.components, client)
+
+	producer, err := kafka.NewSyncProducer("producer", a.config.Producer, a.logger)
+	if err != nil {
+		return err
+	}
+	a.Producer, a.components = producer, append(a.components, producer)
+
 	return a.validateComponents()
 }
 
@@ -99,6 +106,7 @@ func (a *App) Run(ctx context.Context) error {
 	for _, c := range a.components {
 		if err := c.Start(ctx); err != nil {
 			a.logger.Warn("failed to start", zap.String("component", c.Name()), zap.Error(err))
+			return fmt.Errorf("can't start component [%s]: %w", c.Name(), err)
 		}
 	}
 
