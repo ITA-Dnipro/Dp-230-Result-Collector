@@ -3,51 +3,44 @@ package main
 import (
 	"context"
 	"log"
-	"net"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/kelseyhightower/envconfig"
-	"google.golang.org/grpc"
+	"go.uber.org/zap"
 
+	"github.com/ITA-Dnipro/Dp-230-Result-Collector/internal/app"
 	"github.com/ITA-Dnipro/Dp-230-Result-Collector/internal/config"
+	"github.com/ITA-Dnipro/Dp-230-Result-Collector/internal/kafka"
 	"github.com/ITA-Dnipro/Dp-230-Result-Collector/internal/mongodb"
 	"github.com/ITA-Dnipro/Dp-230-Result-Collector/internal/service"
+	"github.com/ITA-Dnipro/Dp-230-Result-Collector/internal/usecase"
 	pb "github.com/ITA-Dnipro/Dp-230-Result-Collector/proto"
 )
 
 func main() {
 	var cfg config.Config
-	if err := envconfig.Process("xss", &cfg); err != nil {
+	if err := envconfig.Process("", &cfg); err != nil {
 		log.Fatal(err.Error())
 	}
+	log.Fatal(run(cfg))
+}
 
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
-	mongoDBConn, err := mongodb.NewMongoDB(ctx, cfg)
+func run(cfg config.Config) error {
+	logger, err := zap.NewProduction()
 	if err != nil {
-		log.Fatal("cannot connect mongodb", err)
+		return err
 	}
-	defer func() {
-		if err := mongoDBConn.Disconnect(ctx); err != nil {
-			log.Fatal("mongoDBConn.Disconnect", err)
-		}
-	}()
-
-	lis, err := net.Listen("tcp", cfg.Server.Port)
+	app, err := app.NewApp(cfg, logger)
 	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
+		return err
 	}
 
 	validate := validator.New()
-	reportRepo := mongodb.NewReportMongoRepo(mongoDBConn)
-	service := service.NewReportService(reportRepo, validate)
+	repository := mongodb.NewReportMongoRepo(app.MongoClient.Client)
+	producer := kafka.NewReportProducer("test", app.Producer.SyncProducer, logger)
+	usecases := usecase.NewReportUsecase(repository, validate, producer)
+	service := service.NewReportService(usecases)
+	pb.RegisterReportServiceServer(app.Server.Server, service)
 
-	srv := grpc.NewServer()
-	pb.RegisterReportServiceServer(srv, service)
-
-	log.Printf("starting server %s", cfg.Server.Port)
-	if err := srv.Serve(lis); err != nil {
-		log.Fatalf("failed to serve: %s", err)
-	}
-
+	return app.Run(context.Background())
 }
