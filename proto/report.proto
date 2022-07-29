@@ -62,7 +62,16 @@ message PushResultRes {
   Report Report = 1;
 }
 
+message GetReportReq{
+  string ID = 1;
+}
+
+message GetReportRes {
+  Report Report = 1;
+}
+
 service ReportService {
   rpc Create(CreateReq) returns (CreateRes) {}
   rpc PushResult(PushResultReq) returns (PushResultRes) {}
+  rpc GetReport(GetReportReq) returns (GetReportRes) {}
 }

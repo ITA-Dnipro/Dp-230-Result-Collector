@@ -14,6 +14,7 @@ import (
 type reportUsecase interface {
 	Create(ctx context.Context, report *model.Report) (*model.Report, error)
 	PushResult(ctx context.Context, id string, tr model.TestResult) (*model.Report, error)
+	GetReport(ctx context.Context, id string) (*model.Report, error)
 }
 
 type reportService struct {
@@ -49,4 +50,15 @@ func (r *reportService) PushResult(ctx context.Context, req *pb.PushResultReq) (
 	}
 
 	return &pb.PushResultRes{Report: created.ToProto()}, nil
+}
+
+func (r *reportService) GetReport(ctx context.Context, req *pb.GetReportReq) (*pb.GetReportRes, error) {
+	id := req.GetID()
+
+	report, err := r.usecase.GetReport(ctx, id)
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, fmt.Sprintf("%s: %v", err.Error(), err))
+	}
+
+	return &pb.GetReportRes{Report: report.ToProto()}, nil
 }

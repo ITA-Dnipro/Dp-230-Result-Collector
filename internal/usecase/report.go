@@ -9,6 +9,7 @@ import (
 type ReportRepo interface {
 	Create(ctx context.Context, report *model.Report) (*model.Report, error)
 	PushResult(ctx context.Context, id string, tr model.TestResult) (*model.Report, error)
+	GetReport(ctx context.Context, id string) (*model.Report, error)
 }
 
 type Validate interface {
@@ -46,4 +47,8 @@ func (u *reportUsecase) PushResult(ctx context.Context, id string, tr model.Test
 		u.producer.Send(report)
 	}
 	return report, nil
+}
+
+func (u *reportUsecase) GetReport(ctx context.Context, id string) (*model.Report, error) {
+	return u.repo.GetReport(ctx, id)
 }

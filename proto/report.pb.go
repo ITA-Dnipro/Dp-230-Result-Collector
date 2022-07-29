@@ -587,6 +587,100 @@ func (x *PushResultRes) GetReport() *Report {
 	return nil
 }
 
+type GetReportReq struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ID string `protobuf:"bytes,1,opt,name=ID,proto3" json:"ID,omitempty"`
+}
+
+func (x *GetReportReq) Reset() {
+	*x = GetReportReq{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_report_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetReportReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetReportReq) ProtoMessage() {}
+
+func (x *GetReportReq) ProtoReflect() protoreflect.Message {
+	mi := &file_report_proto_msgTypes[8]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetReportReq.ProtoReflect.Descriptor instead.
+func (*GetReportReq) Descriptor() ([]byte, []int) {
+	return file_report_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *GetReportReq) GetID() string {
+	if x != nil {
+		return x.ID
+	}
+	return ""
+}
+
+type GetReportRes struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Report *Report `protobuf:"bytes,1,opt,name=Report,proto3" json:"Report,omitempty"`
+}
+
+func (x *GetReportRes) Reset() {
+	*x = GetReportRes{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_report_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetReportRes) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetReportRes) ProtoMessage() {}
+
+func (x *GetReportRes) ProtoReflect() protoreflect.Message {
+	mi := &file_report_proto_msgTypes[9]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetReportRes.ProtoReflect.Descriptor instead.
+func (*GetReportRes) Descriptor() ([]byte, []int) {
+	return file_report_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *GetReportRes) GetReport() *Report {
+	if x != nil {
+		return x.Report
+	}
+	return nil
+}
+
 var File_report_proto protoreflect.FileDescriptor
 
 var file_report_proto_rawDesc = []byte{
@@ -663,18 +757,29 @@ var file_report_proto_rawDesc = []byte{
 	0x75, 0x6c, 0x74, 0x52, 0x65, 0x73, 0x12, 0x2d, 0x0a, 0x06, 0x52, 0x65, 0x70, 0x6f, 0x72, 0x74,
 	0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x15, 0x2e, 0x72, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x53,
 	0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x52, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x52, 0x06, 0x52,
-	0x65, 0x70, 0x6f, 0x72, 0x74, 0x32, 0x9b, 0x01, 0x0a, 0x0d, 0x52, 0x65, 0x70, 0x6f, 0x72, 0x74,
-	0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x3e, 0x0a, 0x06, 0x43, 0x72, 0x65, 0x61, 0x74,
-	0x65, 0x12, 0x18, 0x2e, 0x72, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63,
-	0x65, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x52, 0x65, 0x71, 0x1a, 0x18, 0x2e, 0x72, 0x65,
-	0x70, 0x6f, 0x72, 0x74, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x43, 0x72, 0x65, 0x61,
-	0x74, 0x65, 0x52, 0x65, 0x73, 0x22, 0x00, 0x12, 0x4a, 0x0a, 0x0a, 0x50, 0x75, 0x73, 0x68, 0x52,
-	0x65, 0x73, 0x75, 0x6c, 0x74, 0x12, 0x1c, 0x2e, 0x72, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x53, 0x65,
-	0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x50, 0x75, 0x73, 0x68, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74,
-	0x52, 0x65, 0x71, 0x1a, 0x1c, 0x2e, 0x72, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x53, 0x65, 0x72, 0x76,
-	0x69, 0x63, 0x65, 0x2e, 0x50, 0x75, 0x73, 0x68, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x52, 0x65,
-	0x73, 0x22, 0x00, 0x42, 0x11, 0x5a, 0x0f, 0x2e, 0x3b, 0x72, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x53,
-	0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x65, 0x70, 0x6f, 0x72, 0x74, 0x22, 0x1e, 0x0a, 0x0c, 0x47, 0x65, 0x74, 0x52, 0x65, 0x70, 0x6f,
+	0x72, 0x74, 0x52, 0x65, 0x71, 0x12, 0x0e, 0x0a, 0x02, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x02, 0x49, 0x44, 0x22, 0x3d, 0x0a, 0x0c, 0x47, 0x65, 0x74, 0x52, 0x65, 0x70, 0x6f,
+	0x72, 0x74, 0x52, 0x65, 0x73, 0x12, 0x2d, 0x0a, 0x06, 0x52, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x15, 0x2e, 0x72, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x53, 0x65,
+	0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x52, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x52, 0x06, 0x52, 0x65,
+	0x70, 0x6f, 0x72, 0x74, 0x32, 0xe4, 0x01, 0x0a, 0x0d, 0x52, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x53,
+	0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x3e, 0x0a, 0x06, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65,
+	0x12, 0x18, 0x2e, 0x72, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65,
+	0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x52, 0x65, 0x71, 0x1a, 0x18, 0x2e, 0x72, 0x65, 0x70,
+	0x6f, 0x72, 0x74, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74,
+	0x65, 0x52, 0x65, 0x73, 0x22, 0x00, 0x12, 0x4a, 0x0a, 0x0a, 0x50, 0x75, 0x73, 0x68, 0x52, 0x65,
+	0x73, 0x75, 0x6c, 0x74, 0x12, 0x1c, 0x2e, 0x72, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x53, 0x65, 0x72,
+	0x76, 0x69, 0x63, 0x65, 0x2e, 0x50, 0x75, 0x73, 0x68, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x52,
+	0x65, 0x71, 0x1a, 0x1c, 0x2e, 0x72, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x53, 0x65, 0x72, 0x76, 0x69,
+	0x63, 0x65, 0x2e, 0x50, 0x75, 0x73, 0x68, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x52, 0x65, 0x73,
+	0x22, 0x00, 0x12, 0x47, 0x0a, 0x09, 0x47, 0x65, 0x74, 0x52, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x12,
+	0x1b, 0x2e, 0x72, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e,
+	0x47, 0x65, 0x74, 0x52, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x52, 0x65, 0x71, 0x1a, 0x1b, 0x2e, 0x72,
+	0x65, 0x70, 0x6f, 0x72, 0x74, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x47, 0x65, 0x74,
+	0x52, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x52, 0x65, 0x73, 0x22, 0x00, 0x42, 0x11, 0x5a, 0x0f, 0x2e,
+	0x3b, 0x72, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x62, 0x06,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -689,7 +794,7 @@ func file_report_proto_rawDescGZIP() []byte {
 	return file_report_proto_rawDescData
 }
 
-var file_report_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_report_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_report_proto_goTypes = []interface{}{
 	(*PoC)(nil),                 // 0: reportService.PoC
 	(*Result)(nil),              // 1: reportService.Result
@@ -699,27 +804,32 @@ var file_report_proto_goTypes = []interface{}{
 	(*CreateRes)(nil),           // 5: reportService.CreateRes
 	(*PushResultReq)(nil),       // 6: reportService.PushResultReq
 	(*PushResultRes)(nil),       // 7: reportService.PushResultRes
-	(*timestamp.Timestamp)(nil), // 8: google.protobuf.Timestamp
+	(*GetReportReq)(nil),        // 8: reportService.GetReportReq
+	(*GetReportRes)(nil),        // 9: reportService.GetReportRes
+	(*timestamp.Timestamp)(nil), // 10: google.protobuf.Timestamp
 }
 var file_report_proto_depIdxs = []int32{
 	0,  // 0: reportService.Result.PoCs:type_name -> reportService.PoC
-	8,  // 1: reportService.Result.Duration:type_name -> google.protobuf.Timestamp
-	8,  // 2: reportService.Result.StartTime:type_name -> google.protobuf.Timestamp
-	8,  // 3: reportService.Result.EndTime:type_name -> google.protobuf.Timestamp
+	10, // 1: reportService.Result.Duration:type_name -> google.protobuf.Timestamp
+	10, // 2: reportService.Result.StartTime:type_name -> google.protobuf.Timestamp
+	10, // 3: reportService.Result.EndTime:type_name -> google.protobuf.Timestamp
 	1,  // 4: reportService.TestResult.Results:type_name -> reportService.Result
 	2,  // 5: reportService.Report.TestResults:type_name -> reportService.TestResult
 	3,  // 6: reportService.CreateRes.Report:type_name -> reportService.Report
 	2,  // 7: reportService.PushResultReq.TestResult:type_name -> reportService.TestResult
 	3,  // 8: reportService.PushResultRes.Report:type_name -> reportService.Report
-	4,  // 9: reportService.ReportService.Create:input_type -> reportService.CreateReq
-	6,  // 10: reportService.ReportService.PushResult:input_type -> reportService.PushResultReq
-	5,  // 11: reportService.ReportService.Create:output_type -> reportService.CreateRes
-	7,  // 12: reportService.ReportService.PushResult:output_type -> reportService.PushResultRes
-	11, // [11:13] is the sub-list for method output_type
-	9,  // [9:11] is the sub-list for method input_type
-	9,  // [9:9] is the sub-list for extension type_name
-	9,  // [9:9] is the sub-list for extension extendee
-	0,  // [0:9] is the sub-list for field type_name
+	3,  // 9: reportService.GetReportRes.Report:type_name -> reportService.Report
+	4,  // 10: reportService.ReportService.Create:input_type -> reportService.CreateReq
+	6,  // 11: reportService.ReportService.PushResult:input_type -> reportService.PushResultReq
+	8,  // 12: reportService.ReportService.GetReport:input_type -> reportService.GetReportReq
+	5,  // 13: reportService.ReportService.Create:output_type -> reportService.CreateRes
+	7,  // 14: reportService.ReportService.PushResult:output_type -> reportService.PushResultRes
+	9,  // 15: reportService.ReportService.GetReport:output_type -> reportService.GetReportRes
+	13, // [13:16] is the sub-list for method output_type
+	10, // [10:13] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_report_proto_init() }
@@ -824,6 +934,30 @@ func file_report_proto_init() {
 				return nil
 			}
 		}
+		file_report_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetReportReq); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_report_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetReportRes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -831,7 +965,7 @@ func file_report_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_report_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   8,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
@@ -859,6 +993,7 @@ const _ = grpc.SupportPackageIsVersion6
 type ReportServiceClient interface {
 	Create(ctx context.Context, in *CreateReq, opts ...grpc.CallOption) (*CreateRes, error)
 	PushResult(ctx context.Context, in *PushResultReq, opts ...grpc.CallOption) (*PushResultRes, error)
+	GetReport(ctx context.Context, in *GetReportReq, opts ...grpc.CallOption) (*GetReportRes, error)
 }
 
 type reportServiceClient struct {
@@ -887,10 +1022,20 @@ func (c *reportServiceClient) PushResult(ctx context.Context, in *PushResultReq,
 	return out, nil
 }
 
+func (c *reportServiceClient) GetReport(ctx context.Context, in *GetReportReq, opts ...grpc.CallOption) (*GetReportRes, error) {
+	out := new(GetReportRes)
+	err := c.cc.Invoke(ctx, "/reportService.ReportService/GetReport", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ReportServiceServer is the server API for ReportService service.
 type ReportServiceServer interface {
 	Create(context.Context, *CreateReq) (*CreateRes, error)
 	PushResult(context.Context, *PushResultReq) (*PushResultRes, error)
+	GetReport(context.Context, *GetReportReq) (*GetReportRes, error)
 }
 
 // UnimplementedReportServiceServer can be embedded to have forward compatible implementations.
@@ -902,6 +1047,9 @@ func (*UnimplementedReportServiceServer) Create(context.Context, *CreateReq) (*C
 }
 func (*UnimplementedReportServiceServer) PushResult(context.Context, *PushResultReq) (*PushResultRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PushResult not implemented")
+}
+func (*UnimplementedReportServiceServer) GetReport(context.Context, *GetReportReq) (*GetReportRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetReport not implemented")
 }
 
 func RegisterReportServiceServer(s *grpc.Server, srv ReportServiceServer) {
@@ -944,6 +1092,24 @@ func _ReportService_PushResult_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ReportService_GetReport_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetReportReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ReportServiceServer).GetReport(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/reportService.ReportService/GetReport",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ReportServiceServer).GetReport(ctx, req.(*GetReportReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _ReportService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "reportService.ReportService",
 	HandlerType: (*ReportServiceServer)(nil),
@@ -955,6 +1121,10 @@ var _ReportService_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "PushResult",
 			Handler:    _ReportService_PushResult_Handler,
+		},
+		{
+			MethodName: "GetReport",
+			Handler:    _ReportService_GetReport_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

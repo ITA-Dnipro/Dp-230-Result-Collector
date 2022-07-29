@@ -69,3 +69,19 @@ func (r *reportMongoRepo) PushResult(ctx context.Context, id string, tr model.Te
 
 	return &report, nil
 }
+
+func (r *reportMongoRepo) GetReport(ctx context.Context, id string) (*model.Report, error) {
+	collection := r.mongoDB.Database(reportsDB).Collection(reportsCollection)
+
+	objectID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return nil, errors.Wrap(ErrObjectIDTypeConversion, "report.GetID")
+	}
+
+	var report model.Report
+	if err := collection.FindOne(ctx, bson.M{"_id": objectID}).Decode(&report); err != nil {
+		return nil, errors.Wrap(err, "Decode")
+	}
+
+	return &report, nil
+}
